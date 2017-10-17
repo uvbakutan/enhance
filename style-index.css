@@ -1,0 +1,44 @@
+.nlink {
+  text-decoration: none;
+  color: #3399ff;
+}
+
+p {
+  font-family: Verdana;
+}
+
+#home-text{
+  padding-top: 10px;
+  width            : 700px;
+  height           : 500px;
+  margin:0 auto;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #233241;
+  font-family: Verdana;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #476685;
+}
+
+.active {
+  background-color: #3399ff;
+}
