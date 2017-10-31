@@ -12,19 +12,26 @@
 /*Copied from style-index.css*/
 
 ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #233241;
-  font-family: Verdana;
+    font-family: Verdana;
+    margin: 0;
+    padding: 0;
 }
 
-li {
+ul li  {
+ list-style-position:inside
+}
+
+.nav_li {
   float: left;
 }
 
-li a {
+.nav_ul {
+  background-color: #233241;
+  overflow: hidden;
+  list-style-type: none;
+}
+
+.nav_li a {
   display: block;
   color: white;
   text-align: center;
@@ -32,7 +39,7 @@ li a {
   text-decoration: none;
 }
 
-li a:hover:not(.active) {
+.nav_li a:hover:not(.active) {
   background-color: #476685;
 }
 
