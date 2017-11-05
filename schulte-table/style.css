@@ -1,0 +1,48 @@
+#gameCanvas {
+  background-color: #233241;
+}
+
+#game_div{
+  padding-top: 10px;
+  width            : 700px;
+  height           : 500px;
+  margin:0 auto;
+}
+
+/*Copied from style-index.css*/
+
+ul {
+    font-family: Verdana;
+    margin: 0;
+    padding: 0;
+}
+
+ul li  {
+ list-style-position:inside
+}
+
+.nav_li {
+  float: left;
+}
+
+.nav_ul {
+  background-color: #233241;
+  overflow: hidden;
+  list-style-type: none;
+}
+
+.nav_li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.nav_li a:hover:not(.active) {
+  background-color: #476685;
+}
+
+.active {
+  background-color: #3399ff;
+}

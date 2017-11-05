@@ -7,3 +7,4 @@ This will hopefully be a collection of exercises and games proposed by the Udemy
 Current list of exercises:
 - Mind camera game - click on the last circle that appeared
 - Monkey brain - click the numbers in an ascending order
+- Schulte table - focus on the red circle and find the correct number with your periferal vision
