@@ -16,6 +16,9 @@ var num_row =  4;
 var num_col =  5;
 // Box size for hiding the numbers
 var box_size = 60;
+// Offsets to draw the numbers
+var draw_x_offset = 140;
+var draw_y_offset = 100;
 
 // Create all possible locations: num_row * num_column
 number_positions = [];
@@ -40,7 +43,7 @@ var was_clicked = true;
 game_state      = 0;
 
 // Initialize the text alignment
-context.textBaseline="bottom";
+context.textBaseline="middle";
 context.textAlign="center";
 
 start_game();
@@ -103,17 +106,12 @@ function get_new_numbers(){
 // Draw the numbers on the canvas
 function draw_numbers() {
   context.clearRect(0,0,width,height);
-  context.textBaseline="top";
-  context.textAlign="left";
   context.font = "60px Verdana";
   for(var i=0; i<numbers.length; i++){
     // Go through the rows and columns add draw the appropriate number
     context.fillStyle = numbers[i].color;
-    context.fillText((numbers[i].n).toString(), 115 + (numbers[i].pos % (num_col))*105, 75 + Math.floor(numbers[i].pos / num_col) * 100);
+    context.fillText((numbers[i].n).toString(), draw_x_offset + (numbers[i].pos % (num_col))*105, draw_y_offset + Math.floor(numbers[i].pos / num_col) * 100);
   }
-
-  context.textBaseline="bottom";
-  context.textAlign="center";
 
   // Draw the boxes after the preview (memory duration)
   setTimeout(draw_boxes, mem_dur);
@@ -122,16 +120,11 @@ function draw_numbers() {
 // Draw the remaining numbers if the player made a mistake
 function draw_numbers_mistake() {
   context.clearRect(0,0,width,height);
-  context.textBaseline="top";
-  context.textAlign="left";
   context.font = "60px Verdana";
   for(var i=0; i<numbers.length; i++){
     context.fillStyle = numbers[i].color;
-    context.fillText((numbers[i].n).toString(), 115 + (numbers[i].pos % (num_col))*105, 75 + Math.floor(numbers[i].pos / num_col) * 100);
+    context.fillText((numbers[i].n).toString(), draw_x_offset + (numbers[i].pos % (num_col))*105, draw_y_offset + Math.floor(numbers[i].pos / num_col) * 100);
   }
-
-  context.textBaseline="bottom";
-  context.textAlign="center";
 
   context.fillStyle = 'white';
   context.font = "20px Verdana";
@@ -141,28 +134,22 @@ function draw_numbers_mistake() {
 // Show the correct number and later delete it
 function show_clear_last(){
   // Clear the box and show the number
+  context.clearRect(draw_x_offset - box_size/2 + (numbers[numbers.length - 1].pos % (num_col))*105, draw_y_offset - box_size/2 + Math.floor(numbers[numbers.length - 1].pos / num_col) * 100, box_size, box_size);
+
+  // Show the number that was clicked
   if(was_clicked){
-    context.clearRect(115 + (numbers[numbers.length - 1].pos % (num_col))*105, 75 + Math.floor(numbers[numbers.length - 1].pos / num_col) * 100,60,60);
 
-    context.textBaseline="top";
-    context.textAlign="left";
     context.font = "60px Verdana";
-
     context.fillStyle = numbers[numbers.length - 1].color;
-    context.fillText((numbers[numbers.length - 1].n).toString(), 115 + (numbers[numbers.length - 1].pos % (num_col))*105, 75 + Math.floor(numbers[numbers.length - 1].pos / num_col) * 100);
-
-    context.textBaseline="bottom";
-    context.textAlign="center";
+    context.fillText((numbers[numbers.length - 1].n).toString(), draw_x_offset + (numbers[numbers.length - 1].pos % (num_col))*105, draw_y_offset + Math.floor(numbers[numbers.length - 1].pos / num_col) * 100);
 
     was_clicked = false;
 
-    // Call this function again after 500ms
-    setTimeout(show_clear_last, 300);
+    // Call this function again after 200ms
+    setTimeout(show_clear_last, 200);
   }
-
-  // Clear the number and check wether it was the last one
+  // If the number was already shown delete it
   else{
-    context.clearRect(115 + (numbers[numbers.length - 1].pos % (num_col))*105, 75 + Math.floor(numbers[numbers.length - 1].pos / num_col) * 100,60,60);
 
     numbers.pop();
     game_state = 1;
@@ -180,7 +167,7 @@ function show_clear_last(){
 function draw_boxes() {
   context.fillStyle = 'white';
   for(var i=0; i<numbers.length; i++){
-    context.fillRect(115 + (numbers[i].pos % (num_col))*105, 75 + Math.floor(numbers[i].pos / num_col) * 100, box_size, box_size);
+    context.fillRect(draw_x_offset - box_size/2 + (numbers[i].pos % (num_col))*105, draw_y_offset - box_size/2 + Math.floor(numbers[i].pos / num_col) * 100, box_size, box_size);
   }
 }
 
@@ -189,8 +176,8 @@ function mouse_click_box(mouse){
   var clicked_number = -1;
 
   for(var i = 0; i<numbers.length; i++){
-    diff_x = mouse.offsetX - (115 + (numbers[i].pos % (num_col))*105);
-    diff_y = mouse.offsetY - (75 + Math.floor(numbers[i].pos / num_col) * 100);
+    diff_x = mouse.offsetX - (draw_x_offset - box_size/2 + (numbers[i].pos % (num_col))*105);
+    diff_y = mouse.offsetY - (draw_y_offset - box_size/2 + Math.floor(numbers[i].pos / num_col) * 100);
 
     if (diff_x > 0 && diff_x < box_size && diff_y > 0 && diff_y < box_size){
         clicked_number = numbers[i].n;
@@ -204,8 +191,8 @@ function level_animation(){
   context.clearRect(0,0,width,height);
   context.fillStyle = 'white';
   context.font = "30px Verdana";
-  context.fillText("Numbers: "+(mem_num).toString(), width/2, height/2);
-  context.fillText("Duration: "+(mem_dur).toString() +"ms", width/2, height/2 + 40);
+  context.fillText("Numbers: "+(mem_num).toString(), width/2, height/2 - 30);
+  context.fillText("Duration: "+(mem_dur).toString() +"ms", width/2, height/2 + 10);
   get_new_numbers();
 }
 
@@ -213,9 +200,9 @@ function start_game(){
   context.clearRect(0,0,width,height);
   context.fillStyle = 'white';
   context.font = "60px Verdana";
-  context.fillText("monkey brain ",width/2,height/2);
+  context.fillText("monkey brain ",width/2,height/2 - 30);
   context.font = "20px Arial";
-  context.fillText("click anywhere to start ",width/2,height/2+70);
+  context.fillText("click anywhere to start ",width/2,height/2 + 40);
 }
 
 // Function that shuffles the array a using the Fisher–Yates algorithm
